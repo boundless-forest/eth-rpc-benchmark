@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "benchmark:eth_getBlockNumber:darwinia": "ts-node src/benchmark.ts eth_getBlockNumber darwinia",
-    "benchmark:eth_getBlockNumber:crab": "ts-node src/benchmark.ts eth_getBlockNumber crab"
+    "benchmark:eth_getCode:darwinia": "ts-node src/benchmark.ts eth_getCode darwinia",
+
+    "benchmark:eth_getBlockNumber:crab": "ts-node src/benchmark.ts eth_getBlockNumber crab",
+    "benchmark:eth_getCode:crab": "ts-node src/benchmark.ts eth_getCode crab"
+
   },
   "keywords": [],
   "author": "",

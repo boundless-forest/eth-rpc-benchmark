@@ -1,0 +1,21 @@
+{
+  "name": "ethereum-rpc-benchmark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "benchmark:eth_getBlockNumber:darwinia": "ts-node src/benchmark.ts eth_getBlockNumber darwinia",
+    "benchmark:eth_getBlockNumber:crab": "ts-node src/benchmark.ts eth_getBlockNumber crab"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.11.22",
+    "typescript": "^5.3.3",
+    "web3": "^4.5.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}

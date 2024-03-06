@@ -4,16 +4,18 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
     const step = BigInt(rpcMethodParams.step);
     const offset = BigInt(rpcMethodParams.offset);
     const timeoutDuration = rpcMethodParams.timeoutDuration;
-    const timingResults: { url: string; totalDuration: number; averageDuration: number }[] = [];
 
     for (const url of urls) {
-        let totalDuration = 0;
+        console.log(`\n===== Starting benchmark for URL: ${url} =====`);
 
         for (let i = 0; i < repeatTimes; i++) {
-            console.log(`URL: ${url}, Iteration ${i + 1}: Start fetching block logs...`);
+            console.log(`=== Iteration ${i + 1}: Start fetching block logs... ===`);
             const web3 = new Web3(url);
             const currentBlockNumber = await web3.eth.getBlockNumber();
             const startBlockNumber = currentBlockNumber - offset;
+
+            let totalDurationForIteration = 0; // Initialize total duration for each iteration
+            let stepCountForIteration = 0; // Initialize step count for each iteration
 
             for (let blockNumber = startBlockNumber; blockNumber <= currentBlockNumber; blockNumber += step) {
                 const toBlockNumber = Math.min(Number(blockNumber + step - 1n), Number(currentBlockNumber));
@@ -32,20 +34,20 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
                         new Promise((_, reject) => setTimeout(() => reject(new Error('fetch information failed, time out')), timeoutDuration))
                     ]);
                 } catch (error) {
-                    console.error(`Fetch Block logs from ${blockNumber} to ${toBlockNumber}: ${(error as Error).message}`);
+                    console.error(`\nError fetching Block logs from ${blockNumber} to ${toBlockNumber}: ${(error as Error).message}`);
                     continue;
                 }
 
                 const endTime = Date.now();
                 const duration = endTime - startTime;
                 console.log(`Fetch block logs from ${blockNumber} to ${toBlockNumber}: in ${duration}ms`);
-                totalDuration += duration;
+                totalDurationForIteration += duration;
+                stepCountForIteration++;
             }
-        }
-        const averageDuration = totalDuration / repeatTimes;
-        timingResults.push({ url, totalDuration, averageDuration });
-        console.log(`URL: ${url}: End all iterations, Average time: ${averageDuration.toFixed(2)}ms`);
-    }
 
-    console.log('Timing Results:', timingResults);
+            // Calculate and output the average time for fetching logs for each step range
+            const averageDurationForIteration = totalDurationForIteration / stepCountForIteration;
+            console.log(`=== Average time for fetching logs in this iteration: ${averageDurationForIteration.toFixed(2)}ms ===`);
+        }
+    }
 }

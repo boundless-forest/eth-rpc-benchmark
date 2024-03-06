@@ -1,7 +1,7 @@
 {
     "darwinia": {
         "benchmarkConfig": {
-            "repeatTimes": 10,
+            "repeatTimes": 5,
             "urls": [
                 "https://darwinia-rpc.dwellir.com",
                 "https://darwinia-rpc.dwellir.com",
@@ -21,31 +21,13 @@
                             "0x0000000000d2de3e2444926c4577b0a59f1dd8bc"
                         ]
                     }
-                }
-            ]
-        }
-    },
-    "crab": {
-        "benchmarkConfig": {
-            "repeatTimes": 10,
-            "urls": [
-                "https://crab-rpc.darwinia.network",
-                "https://crab-rpc.darwiniacommunitydao.xyz"
-            ],
-            "rpcMethods": [
-                {
-                    "name": "eth_getBlockNumber",
-                    "params": {}
                 },
                 {
-                    "name": "eth_getCode",
+                    "name": "eth_getLogs",
                     "params": {
-                        "contractAddress": [
-                            "0x05afc4fcee5d0fbaf1e7eacbb2126c05e3c3f815",
-                            "0x001f4106bf93cfdd01ea17e237da11d55ebf49f7",
-                            "0x01f53415adc20a2d058dff14e295ab955cafd6d6"   
-                        ]
+                        "offset": 3000
                     }
+
                 }
             ]
         }

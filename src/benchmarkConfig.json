@@ -1,7 +1,7 @@
 {
     "darwinia": {
         "benchmarkConfig": {
-            "repeatTimes": 5,
+            "repeatTimes": 2,
             "urls": [
                 "https://rpc.darwinia.network",
                 "https://darwinia-rpc.dwellir.com",

@@ -14,8 +14,8 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
             const currentBlockNumber = await web3.eth.getBlockNumber();
             const startBlockNumber = currentBlockNumber - offset;
 
-            let totalDurationForIteration = 0; // Initialize total duration for each iteration
-            let stepCountForIteration = 0; // Initialize step count for each iteration
+            let totalDurationForIteration = 0;
+            let stepCountForIteration = 0;
 
             for (let blockNumber = startBlockNumber; blockNumber <= currentBlockNumber; blockNumber += step) {
                 const toBlockNumber = Math.min(Number(blockNumber + step - 1n), Number(currentBlockNumber));
@@ -34,7 +34,7 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
                         new Promise((_, reject) => setTimeout(() => reject(new Error('fetch information failed, time out')), timeoutDuration))
                     ]);
                 } catch (error) {
-                    console.error(`\nError fetching Block logs from ${blockNumber} to ${toBlockNumber}: ${(error as Error).message}`);
+                    console.error(`Error fetching Block logs from ${blockNumber} to ${toBlockNumber}: ${(error as Error).message}`);
                     continue;
                 }
 

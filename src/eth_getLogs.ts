@@ -1,29 +1,36 @@
 import Web3 from 'web3';
 
 export default async function benchmarkEthGetLogs(repeatTimes: number, urls: string[], rpcMethodParams: any) {
-    const step = rpcMethodParams.step;
-    const offset = rpcMethodParams.offset;
+    const step = BigInt(rpcMethodParams.step);
+    const offset = BigInt(rpcMethodParams.offset);
+    const timeoutDuration = rpcMethodParams.timeoutDuration;
     const timingResults: { url: string; totalDuration: number; averageDuration: number }[] = [];
 
     for (const url of urls) {
         let totalDuration = 0;
         
-        // Iterate the specified number of times
         for (let i = 0; i < repeatTimes; i++) {
             const web3 = new Web3(url);
             const currentBlockNumber = await web3.eth.getBlockNumber();
             const startBlockNumber = currentBlockNumber - offset;
 
             const startTime = Date.now();
-            // Fetch logs for the current block number range
             for (let blockNumber = startBlockNumber; blockNumber <= currentBlockNumber; blockNumber += step) {
-                // Define a filter to fetch all logs from the current block number to the currentBlockNumber
+                const toBlockNumber = Math.min(Number(blockNumber + step - 1n), Number(currentBlockNumber));
                 const filter = {
                     fromBlock: blockNumber,
-                    toBlock: Math.min(blockNumber + step - 1, Number(currentBlockNumber))
+                    toBlock: toBlockNumber
                 };
 
-                await web3.eth.getPastLogs(filter);
+                // Wrap the getPastLogs call in a Promise.race to add a timeout
+                try {
+                    await Promise.race([
+                        web3.eth.getPastLogs(filter),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('fetch information failed, time out')), timeoutDuration))
+                    ]);
+                } catch (error) {
+                    console.error(`URL: ${url}, Iteration ${i + 1}: ${(error as Error).message}`);
+                }
             }
 
             const endTime = Date.now();

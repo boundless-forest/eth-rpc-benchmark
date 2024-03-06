@@ -3,7 +3,7 @@
         "benchmarkConfig": {
             "repeatTimes": 5,
             "urls": [
-                "https://darwinia-rpc.dwellir.com",
+                "https://rpc.darwinia.network",
                 "https://darwinia-rpc.dwellir.com",
                 "https://darwinia-rpc.darwiniacommunitydao.xyz"
             ],
@@ -25,7 +25,9 @@
                 {
                     "name": "eth_getLogs",
                     "params": {
-                        "offset": 3000
+                        "step": 500,
+                        "offset": 3000,
+                        "timeoutDuration": 10000
                     }
 
                 }

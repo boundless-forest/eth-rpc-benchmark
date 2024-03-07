@@ -6,6 +6,7 @@
         "moduleResolution": "node",
         "outDir": "./dist",
         "strict": true,
+        "types": ["node"]
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]

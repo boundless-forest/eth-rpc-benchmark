@@ -14,7 +14,7 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
         console.log(`\n===== Starting benchmark for URL: ${url}, startBlockNumber: ${startBlockNumber}, toBlockNumber: ${toBlockNumber}, range: ${range}, steps: ${steps} =====`);
 
         for (let i = 0; i < repeatTimes; i++) {
-            console.log(`=== Iteration ${i + 1}: Start fetching block logs... ===`);
+            console.log(`=== URL: ${url}, Iteration ${i + 1}: Start fetching block logs... ===`);
             let totalDurationForIteration = 0;
             let stepCountForIteration = 0;
 
@@ -48,7 +48,7 @@ export default async function benchmarkEthGetLogs(repeatTimes: number, urls: str
 
             // Calculate and output the average time for fetching logs for each step range
             const averageDurationForIteration = totalDurationForIteration / stepCountForIteration;
-            console.log(`=== Average time for fetching logs in this iteration: ${averageDurationForIteration.toFixed(2)}ms ===`);
+            console.log(`=== URL: ${url}, Average time for fetching logs in this iteration: ${averageDurationForIteration.toFixed(2)}ms ===`);
         }
     }
 }

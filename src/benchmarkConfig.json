@@ -26,8 +26,8 @@
                     "name": "eth_getLogs",
                     "params": {
                         "offset": 0,
-                        "range": 3000,
-                        "steps": 10,
+                        "range": 2000,
+                        "steps": 5,
                         "timeoutDuration": 80000
                     }
 

@@ -9,14 +9,12 @@
     "benchmark:eth_getLogs:darwinia": "ts-node src/benchmark.ts eth_getLogs darwinia"
   },
   "keywords": [],
-  "author": "",
+  "author": "boundless-forest",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^20.11.22",
-    "typescript": "^5.3.3",
-    "web3": "^4.5.0"
-  },
-  "devDependencies": {
+    "@types/node": "^20.16.13",
+    "ethers": "^6.13.4",
+    "typescript": "^5.6.3",
     "ts-node": "^10.9.2"
   }
 }

@@ -1,14 +1,17 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2020",
-        "esModuleInterop": true,
-        "moduleResolution": "node",
-        "outDir": "./dist",
-        "strict": true,
-        "types": ["node"]
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
-   }
-   
+	"compilerOptions": {
+		"module": "NodeNext",
+		"target": "es2020",
+		"esModuleInterop": true,
+		// Emit
+		"outDir": "build",
+		"noEmitOnError": true,
+		// Type Checking
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules"]
+}

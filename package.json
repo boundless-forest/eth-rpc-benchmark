@@ -4,7 +4,6 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "tsx src/run.ts",
 		"ethBlockNumber": "tsx src/ethBlockNumber.ts"
 	},
 	"keywords": [],

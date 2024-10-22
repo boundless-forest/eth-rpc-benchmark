@@ -1,4 +1,4 @@
-rpcProvider = "https://koi-rpc.darwinia.network"
-threads = 10
-duration = 60
-resultOutput = "output"
+rpcProvider = "https://darwinia-rpc.dwellir.com"
+concurrency = 20
+duration = 6000
+output = "output"

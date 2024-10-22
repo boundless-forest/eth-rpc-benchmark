@@ -1,0 +1,4 @@
+rpcProvider = "https://koi-rpc.darwinia.network"
+threads = 10
+duration = 60
+resultOutput = "output"

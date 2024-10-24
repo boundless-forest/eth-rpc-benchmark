@@ -1,6 +1,7 @@
 # Basic configuration
-rpcProvider = "https://darwinia-rpc.dwellir.com"
+benchRpcProvider = "https://darwinia-rpc.dwellir.com"
+preBenchDataProvider = "https://rpc.darwinia.network"
 concurrency = 20
 duration = 6000
 output = "output"
-
+logLevel = "debug"

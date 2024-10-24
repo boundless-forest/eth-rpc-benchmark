@@ -5,20 +5,19 @@ This repository contains a simple benchmarking tool for Ethereum compatible chai
 ## Supported Methods
 
 - [x] `eth_blockNumber`
+- [x] `eth_getBlockByNumber`
+- [ ] `eth_getBlockByHash`
 - [ ] `eth_accounts`
 - [ ] `eth_call`
 - [ ] `eth_getTransactionByHash`
 - [ ] `eth_getTransactionReceipt`
 - [ ] `eth_getTransactionByBlockHashAndIndex`
 - [ ] `eth_getTransactionCount`
-- [ ] `eth_getBlockByHash`
-- [ ] `eth_getBlockByNumber`
 - [ ] `eth_getBalance`
 - [ ] `eth_getCode`
 - [ ] `eth_estimateGas`
 - [ ] `eth_gasPrice`
 - [ ] `eth_getStorageAt`
-- [ ] `eth_accounts`
 - [ ] `eth_syncing`
 - [ ] `eth_chainId`
 
@@ -42,7 +41,11 @@ output = "output"
 ### Run
 
 ```sh
+# Run the benchmark for eth_blockNumber
 pnpm run --silent ethBlockNumber
+
+# Run the benchmark for eth_getBlockByNumber
+pnpm run --silent ethGetBlockByNumber
 ```
 
-The benchmark result will be saved in a file named with rpc method under the `output` directory(by default). 
+After running the benchmark, the results will be appended to a file named after the RPC method in the `output` directory (by default). This allows us to compare the performance of different RPC providers. 

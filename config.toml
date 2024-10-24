@@ -1,4 +1,6 @@
+# Basic configuration
 rpcProvider = "https://darwinia-rpc.dwellir.com"
 concurrency = 20
 duration = 6000
 output = "output"
+

@@ -1,5 +1,5 @@
 {
-	"name": "ethereum-rpc-benchmark",
+	"name": "eth-rpc-benchmark",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",

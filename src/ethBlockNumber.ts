@@ -3,7 +3,7 @@ import {
 	benchStartConsole,
 	BenchmarkResult,
 	benchResultConsole,
-    saveBenchMarkResult,
+	saveBenchMarkResult,
 } from "./bench";
 import { ethers } from "ethers";
 import { performance } from "perf_hooks";
@@ -22,31 +22,38 @@ async function runBenchmark() {
 
 	let startTime = performance.now();
 	let totalRequests = 0;
+	let failedRequests = 0;
 
 	while (performance.now() - startTime < duration) {
 		const promises = Array(concurrency)
 			.fill(null)
 			.map(() => getBlockNumber(provider));
+		totalRequests += concurrency;
 
-		try {
-			await Promise.all(promises);
-			totalRequests += concurrency;
-		} catch (error) {
-			console.error(error);
-		}
+		const results = await Promise.allSettled(promises);
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				failedRequests++;
+				console.error(result.reason);
+			}
+		});
 	}
 
 	const elapsedTime = performance.now() - startTime;
 	const avgRps = totalRequests / (elapsedTime / 1000);
+	const successRate =
+		((totalRequests - failedRequests) / totalRequests) * 100;
 	const result: BenchmarkResult = {
 		method,
 		totalRequests,
+		failedRequests,
 		elapsedTime,
 		avgRps,
+		successRate,
 	};
 
 	benchResultConsole(result);
-    saveBenchMarkResult(result, config);
+	saveBenchMarkResult(result, config);
 }
 
 await runBenchmark();

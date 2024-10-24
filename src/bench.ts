@@ -34,8 +34,10 @@ export async function loadConfig(): Promise<Config> {
 export interface BenchmarkResult {
 	method: string;
 	totalRequests: number;
+	failedRequests: number;
 	elapsedTime: number;
 	avgRps: number;
+	successRate: number;
 }
 
 export function benchStartConsole(method: string, config: Config) {
@@ -61,7 +63,9 @@ export async function saveBenchMarkResult(
 		duration: number;
 		time: string
 		totalRequests: number;
+		failedRequests: number;
 		avgRps: number;
+		successRate: number;
 	}
 
 	const filePath = join(config.output, `${result.method}.json`);
@@ -82,7 +86,9 @@ export async function saveBenchMarkResult(
 		duration: config.duration,
 		time: new Date().toISOString(),
 		totalRequests: result.totalRequests,
+		failedRequests: result.failedRequests,
 		avgRps: result.avgRps,
+		successRate: result.successRate,
 	});
 	await writeFile(filePath, JSON.stringify(jsonResult, null, 2));
 	console.log(`Benchmark result saved to ${filePath}`);

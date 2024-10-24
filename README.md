@@ -1,10 +1,10 @@
-# Ethereum RPC Benchmark
+# Eth RPC Benchmark
 
-This repository contains a simple benchmarking tool for Ethereum JSON-RPC methods. 
+This repository contains a simple benchmarking tool for Ethereum compatible chains JSON-RPC methods. 
 
 ## Supported Methods
 
-- [ ] `eth_blockNumber`
+- [x] `eth_blockNumber`
 - [ ] `eth_accounts`
 - [ ] `eth_call`
 - [ ] `eth_getTransactionByHash`
@@ -21,3 +21,28 @@ This repository contains a simple benchmarking tool for Ethereum JSON-RPC method
 - [ ] `eth_accounts`
 - [ ] `eth_syncing`
 - [ ] `eth_chainId`
+
+## Usage
+
+### Install
+
+```sh
+pnpm install
+```
+
+### Configure
+
+```toml
+rpcProvider = "https://darwinia-rpc.dwellir.com"
+concurrency = 20
+duration = 6000
+output = "output"
+```
+
+### Run
+
+```sh
+pnpm run --silent ethBlockNumber
+```
+
+The benchmark result will be saved in a file named with rpc method under the `output` directory(by default). 

@@ -1,7 +1,7 @@
-import { mkdir, writeFile, readFile, access } from "fs/promises";
-import { join } from "path";
-import { parse } from "smol-toml";
-import logger from "./logger";
+import { mkdir, writeFile, readFile, access } from 'fs/promises';
+import { join } from 'path';
+import { parse } from 'smol-toml';
+import logger from './logger';
 
 export interface Config {
 	benchRpcProvider: string;
@@ -13,19 +13,19 @@ export interface Config {
 }
 
 export async function loadConfig(): Promise<Config> {
-	const tomlContent = await readFile("config.toml", "utf-8");
+	const tomlContent = await readFile('config.toml', 'utf-8');
 	const config = parse(tomlContent);
 
 	// validate the config object
 	if (
-		typeof config.benchRpcProvider !== "string" ||
-		typeof config.preBenchDataProvider !== "string" ||
-		typeof config.concurrency !== "number" ||
-		typeof config.duration !== "number" ||
-		typeof config.output !== "string" ||
-		typeof config.logLevel !== "string"
+		typeof config.benchRpcProvider !== 'string' ||
+		typeof config.preBenchDataProvider !== 'string' ||
+		typeof config.concurrency !== 'number' ||
+		typeof config.duration !== 'number' ||
+		typeof config.output !== 'string' ||
+		typeof config.logLevel !== 'string'
 	) {
-		throw new Error("Invalid configuration.");
+		throw new Error('Invalid configuration.');
 	}
 
 	return {
@@ -49,21 +49,18 @@ export interface BenchmarkResult {
 
 export function benchStartConsole(method: string, config: Config) {
 	logger.info(
-		`Starting benchmark ${method} to ${config.benchRpcProvider} with ${config.concurrency} concurrency for ${config.duration} milliseconds`
+		`Starting benchmark ${method} to ${config.benchRpcProvider} with ${config.concurrency} concurrency for ${config.duration} milliseconds`,
 	);
 }
 
 export function benchResultConsole(result: BenchmarkResult) {
 	logger.info(
-		`Benchmark ${result.method} completed with ${result.totalRequests} requests in ${result.elapsedTime}ms`
+		`Benchmark ${result.method} completed with ${result.totalRequests} requests in ${result.elapsedTime}ms`,
 	);
 }
 
 // Collect the benchmark result and save it to a JSON file, this is useful for comparing the performance of different RPC providers.
-export async function saveBenchMarkResult(
-	result: BenchmarkResult,
-	config: Config
-) {
+export async function saveBenchMarkResult(result: BenchmarkResult, config: Config) {
 	interface JsonResult {
 		benchRpcProvider: string;
 		concurrency: number;
@@ -85,7 +82,7 @@ export async function saveBenchMarkResult(
 	}
 
 	// Append the new result to the existing JSON file
-	const json = await readFile(filePath, "utf-8");
+	const json = await readFile(filePath, 'utf-8');
 	jsonResult = JSON.parse(json);
 	jsonResult.push({
 		benchRpcProvider: config.benchRpcProvider,

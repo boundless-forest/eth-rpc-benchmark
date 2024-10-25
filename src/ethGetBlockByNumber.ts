@@ -1,23 +1,14 @@
-import {
-	loadConfig,
-	benchStartConsole,
-	BenchmarkResult,
-	benchResultConsole,
-	saveBenchMarkResult,
-} from "./bench";
-import logger from "./logger";
-import { ethers } from "ethers";
-import { performance } from "perf_hooks";
+import { loadConfig, benchStartConsole, BenchmarkResult, benchResultConsole, saveBenchMarkResult } from './bench';
+import logger from './logger';
+import { ethers } from 'ethers';
+import { performance } from 'perf_hooks';
 
-async function getBlockByNumber(
-	provider: ethers.JsonRpcProvider,
-	number: number
-) {
+async function getBlockByNumber(provider: ethers.JsonRpcProvider, number: number) {
 	return provider.getBlock(number);
 }
 
 async function runBenchmark() {
-	const method = "eth_getblockByNumber";
+	const method = 'eth_getblockByNumber';
 	const config = await loadConfig();
 	const { benchRpcProvider, concurrency, duration } = config;
 	const provider = new ethers.JsonRpcProvider(benchRpcProvider);
@@ -30,17 +21,15 @@ async function runBenchmark() {
 	const latestBlockNumber = await provider.getBlockNumber();
 	while (performance.now() - startTime < duration) {
 		const randomBlockNumbers = Array.from({ length: concurrency }, () =>
-			Math.floor(Math.random() * latestBlockNumber)
+			Math.floor(Math.random() * latestBlockNumber),
 		);
 		logger.debug(`Random block numbers: ${randomBlockNumbers}`);
-		const promises = randomBlockNumbers.map((blockNumber) =>
-			getBlockByNumber(provider, blockNumber)
-		);
+		const promises = randomBlockNumbers.map((blockNumber) => getBlockByNumber(provider, blockNumber));
 		totalRequests += concurrency;
 
 		const results = await Promise.allSettled(promises);
 		results.forEach((result) => {
-			if (result.status === "rejected") {
+			if (result.status === 'rejected') {
 				failedRequests++;
 				logger.error(result.reason);
 			} else {
@@ -51,8 +40,7 @@ async function runBenchmark() {
 
 	const elapsedTime = performance.now() - startTime;
 	const avgRps = totalRequests / (elapsedTime / 1000);
-	const successRate =
-		((totalRequests - failedRequests) / totalRequests) * 100;
+	const successRate = ((totalRequests - failedRequests) / totalRequests) * 100;
 	const result: BenchmarkResult = {
 		method,
 		totalRequests,

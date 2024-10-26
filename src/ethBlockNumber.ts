@@ -1,13 +1,14 @@
-import { loadConfig, benchStartConsole, BenchmarkResult, benchResultConsole, saveBenchMarkResult } from './bench';
+import { loadConfig, BenchmarkResult, saveBenchMarkResult } from './bench';
 import { ethers } from 'ethers';
 import { performance } from 'perf_hooks';
+import { benchStartConsole, benchResultConsole } from './logger';
 
 async function getBlockNumber(provider: ethers.JsonRpcProvider) {
 	return provider.getBlockNumber();
 }
 
 async function runBenchmark() {
-	const method = 'eth_getBlockByNumber';
+	const method = 'eth_blockNumber';
 	const config = await loadConfig();
 	const { benchRpcProvider, concurrency, duration } = config;
 	const provider = new ethers.JsonRpcProvider(benchRpcProvider);

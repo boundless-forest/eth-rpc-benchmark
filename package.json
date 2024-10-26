@@ -6,7 +6,8 @@
 	"scripts": {
 		"fmt": "prettier --write \"src/**/*.ts\"",
 		"ethBlockNumber": "tsx src/ethBlockNumber.ts",
-		"ethGetBlockByNumber": "tsx src/ethGetBlockByNumber.ts"
+		"ethGetBlockByNumber": "tsx src/ethGetBlockByNumber.ts",
+		"ethGetCode": "tsx src/ethGetCode.ts"
 	},
 	"keywords": [],
 	"author": "boundless-forest",

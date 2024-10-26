@@ -47,18 +47,6 @@ export interface BenchmarkResult {
 	successRate: number;
 }
 
-export function benchStartConsole(method: string, config: Config) {
-	logger.info(
-		`Starting benchmark ${method} to ${config.benchRpcProvider} with ${config.concurrency} concurrency for ${config.duration} milliseconds`,
-	);
-}
-
-export function benchResultConsole(result: BenchmarkResult) {
-	logger.info(
-		`Benchmark ${result.method} completed with ${result.totalRequests} requests in ${result.elapsedTime}ms`,
-	);
-}
-
 // Collect the benchmark result and save it to a JSON file, this is useful for comparing the performance of different RPC providers.
 export async function saveBenchMarkResult(result: BenchmarkResult, config: Config) {
 	interface JsonResult {

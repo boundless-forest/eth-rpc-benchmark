@@ -1,4 +1,5 @@
-import { loadConfig, benchStartConsole, BenchmarkResult, benchResultConsole, saveBenchMarkResult } from './bench';
+import { loadConfig, BenchmarkResult, saveBenchMarkResult } from './bench';
+import { benchResultConsole, benchStartConsole } from './logger';
 import logger from './logger';
 import { ethers } from 'ethers';
 import { performance } from 'perf_hooks';
@@ -8,7 +9,7 @@ async function getBlockByNumber(provider: ethers.JsonRpcProvider, number: number
 }
 
 async function runBenchmark() {
-	const method = 'eth_getblockByNumber';
+	const method = 'eth_getBlockByNumber';
 	const config = await loadConfig();
 	const { benchRpcProvider, concurrency, duration } = config;
 	const provider = new ethers.JsonRpcProvider(benchRpcProvider);

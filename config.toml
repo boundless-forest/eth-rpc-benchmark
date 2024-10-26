@@ -1,7 +1,7 @@
 # Basic configuration
-benchRpcProvider = "https://darwinia-rpc.dwellir.com"
-preBenchDataProvider = "https://rpc.darwinia.network"
-concurrency = 20
-duration = 6000
+benchRpcProvider = "https://optimism-mainnet.public.blastapi.io"
+preBenchDataProvider = "https://optimism-mainnet.public.blastapi.io"
+concurrency = 10
+duration = 3000
 output = "output"
 logLevel = "debug"

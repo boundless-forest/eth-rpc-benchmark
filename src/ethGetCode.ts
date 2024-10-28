@@ -8,9 +8,6 @@ async function getCode(provider: ethers.JsonRpcProvider, address: string) {
 	return provider.getCode(address);
 }
 
-// This function will iterate over the blocks from the preBenchDataProvider and fetch the contracts address deployed
-// in those blocks, then save those addressed into a vector and give it to the runBenchmark function. This is aimed
-// to avoid the cache of the real benchmark provider.
 async function preBenchmark(): Promise<string[]> {
 	const config = await loadConfig();
 	const { preBenchDataProvider, concurrency } = config;

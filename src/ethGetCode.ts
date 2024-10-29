@@ -1,4 +1,4 @@
-import { loadConfig, BenchmarkResult, saveBenchMarkResult } from './bench';
+import { loadConfig, BenchmarkResult, saveBenchMarkResult, Config } from './bench';
 import { benchStartConsole, benchResultConsole, preBenchmarkConsole } from './logger';
 import logger from './logger';
 import { ethers } from 'ethers';
@@ -8,8 +8,7 @@ async function getCode(provider: ethers.JsonRpcProvider, address: string) {
 	return provider.getCode(address);
 }
 
-async function preBenchmark(): Promise<string[]> {
-	const config = await loadConfig();
+async function preBenchmark(config: Config): Promise<string[]> {
 	const { preBenchDataProvider, concurrency } = config;
 	const provider = new ethers.JsonRpcProvider(preBenchDataProvider);
 	preBenchmarkConsole(config);
@@ -44,8 +43,48 @@ async function preBenchmark(): Promise<string[]> {
 }
 
 async function runBenchmark() {
-	const contractAddresses = await preBenchmark();
+	const method = 'eth_getCode';
+	const config = await loadConfig();
+	const { benchRpcProvider, concurrency, duration } = config;
+	const provider = new ethers.JsonRpcProvider(benchRpcProvider);
+
+	const contractAddresses = await preBenchmark(config);
 	logger.debug(`contractAddresses: ${contractAddresses}`);
+
+	benchStartConsole(method, config);
+
+	let startTime = performance.now();
+	let totalRequests = 0;
+	let failedRequests = 0;
+	while (performance.now() - startTime < duration) {
+		const promises = contractAddresses.map((contract) => getCode(provider, contract));
+		totalRequests += concurrency;
+
+		const results = await Promise.allSettled(promises);
+		results.forEach((result) => {
+			if (result.status === 'rejected') {
+				failedRequests++;
+				logger.error(result.reason);
+			} else {
+				logger.debug(`Successfully fetched contract code.`);
+			}
+		});
+	}
+
+	const elapsedTime = performance.now() - startTime;
+	const avgRps = totalRequests / (elapsedTime / 1000);
+	const successRate = ((totalRequests - failedRequests) / totalRequests) * 100;
+	const result: BenchmarkResult = {
+		method,
+		totalRequests,
+		failedRequests,
+		elapsedTime,
+		avgRps,
+		successRate,
+	};
+
+	benchResultConsole(result);
+	saveBenchMarkResult(result, config);
 }
 
 await runBenchmark();

@@ -15,9 +15,7 @@ const logger = winston.createLogger({
 });
 
 export function preBenchmarkConsole(config: Config) {
-	logger.info(
-		`Pre-benchmarking to ${config.preBenchDataProvider} with ${config.concurrency} concurrency`,
-	);
+	logger.info(`Pre-benchmarking to ${config.preBenchDataProvider} with ${config.concurrency} concurrency`);
 }
 
 export function benchStartConsole(method: string, config: Config) {

@@ -1,16 +1,8 @@
 import { loadConfig, BenchmarkResult, saveBenchMarkResult, Config } from './bench';
-import { benchResultConsole, benchStartConsole, preBenchmarkConsole } from './logger';
+import { benchStartConsole, benchResultConsole, preBenchmarkConsole } from './logger';
 import logger from './logger';
 import { ethers } from 'ethers';
 import { performance } from 'perf_hooks';
-
-async function getBlockByNumber(provider: ethers.JsonRpcProvider, number: number) {
-	return provider.getBlock(number);
-}
-
-async function getBlockByHash(provider: ethers.JsonRpcProvider, hash: string) {
-	return provider.getBlock(hash);
-}
 
 async function preBenchmark(config: Config): Promise<string[]> {
 	const { preBenchDataProvider, concurrency } = config;
@@ -18,30 +10,34 @@ async function preBenchmark(config: Config): Promise<string[]> {
 	preBenchmarkConsole(config);
 
 	const latestBlockNumber = await provider.getBlockNumber();
-	const randomBlockNumbers = Array.from({ length: concurrency }, () => Math.floor(Math.random() * latestBlockNumber));
-	logger.debug(`Random block numbers: ${randomBlockNumbers}`);
+	let blockNumber = latestBlockNumber;
+	const txHashes: string[] = [];
 
-	const hashes: string[] = [];
-	for (const blockNumber of randomBlockNumbers) {
-		const block = await provider.getBlock(blockNumber, false);
-		if (block && block.hash) {
-			hashes.push(block.hash);
-		} else {
-			logger.error(`Failed to fetch block: ${blockNumber}`);
+	logger.debug(`started at blockNumber: ${blockNumber}`);
+	while (txHashes.length < concurrency && blockNumber > 0) {
+		const block = await provider.getBlock(blockNumber, true);
+		if (block && block.transactions) {
+			for (const txHash of block.transactions) {
+				txHashes.push(txHash);
+				if (txHashes.length >= concurrency) {
+					break;
+				}
+			}
 		}
+		blockNumber -= 500;
 	}
 
-	return hashes;
+	return txHashes;
 }
 
 async function runBenchmark() {
-	const method = 'eth_getBlockByHash';
+	const method = 'eth_getTransactionReceipt';
 	const config = await loadConfig();
 	const { benchRpcProvider, concurrency, duration } = config;
 	const provider = new ethers.JsonRpcProvider(benchRpcProvider);
 
-	const hashes = await preBenchmark(config);
-	logger.debug(`sample hashes: ${hashes}`);
+	const txHashes = await preBenchmark(config);
+	logger.debug(`txHashes: ${txHashes}`);
 
 	benchStartConsole(method, config);
 
@@ -49,7 +45,7 @@ async function runBenchmark() {
 	let totalRequests = 0;
 	let failedRequests = 0;
 	while (performance.now() - startTime < duration) {
-		const promises = hashes.map((h) => getBlockByHash(provider, h));
+		const promises = txHashes.map((hash) => provider.getTransactionReceipt(hash));
 		totalRequests += concurrency;
 
 		const results = await Promise.allSettled(promises);
@@ -58,7 +54,7 @@ async function runBenchmark() {
 				failedRequests++;
 				logger.error(result.reason);
 			} else {
-				logger.debug(`Successfully fetched block via hash: ${result.value?.number}`);
+				logger.debug(`Successfully fetched transaction receipt.`);
 			}
 		});
 	}

@@ -6,8 +6,8 @@ This repository contains a simple benchmarking tool for Ethereum compatible chai
 
 - [x] `eth_blockNumber`
 - [x] `eth_getBlockByNumber`
+- [x] `eth_getBlockByHash`
 - [x] `eth_getCode`
-- [ ] `eth_getBlockByHash`
 - [ ] `eth_getTransactionByHash`
 - [ ] `eth_getTransactionReceipt`
 - [ ] `eth_getBalance`
@@ -40,8 +40,9 @@ logLevel = "debug"
 # Run the benchmark for eth_blockNumber
 pnpm run --silent ethBlockNumber
 
-# Run the benchmark for eth_getBlockByNumber
+# Run the benchmark for eth_getBlockByNumber, ethGetBlockByHash
 pnpm run --silent ethGetBlockByNumber
+pnpm run --silent ethGetBlockByHash
 
 # Run the benchmark for eth_getCode
 pnpm run --silent ethGetCode

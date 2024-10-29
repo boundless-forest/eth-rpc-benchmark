@@ -1,7 +1,11 @@
-# Basic configuration
-benchRpcProvider = "https://optimism-mainnet.public.blastapi.io"
+# Certain methods require on-chain data to be available. The preBenchDataProvider is used to supply this data to prevent the cache influence of the benchRpcProvider.
 preBenchDataProvider = "https://optimism-mainnet.public.blastapi.io"
+# The rpc provider to be benchmarked.
+benchRpcProvider = "https://optimism-mainnet.public.blastapi.io"
+# The number of concurrent requests to be made in the duration of the benchmark.
 concurrency = 10
 duration = 3000
+# The output directory for the benchmark results.
 output = "output"
+# The log level for the benchmark.
 logLevel = "debug"

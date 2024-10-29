@@ -31,7 +31,7 @@ async function preBenchmark(config: Config): Promise<string[]> {
 }
 
 async function runBenchmark() {
-	const method = 'eth_getTransaction';
+	const method = 'eth_getTransactionByHash';
 	const config = await loadConfig();
 	const { benchRpcProvider, concurrency, duration } = config;
 	const provider = new ethers.JsonRpcProvider(benchRpcProvider);

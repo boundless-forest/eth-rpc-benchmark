@@ -8,8 +8,8 @@
 		"ethBlockNumber": "tsx src/ethBlockNumber.ts",
 		"ethGetBlockByNumber": "tsx src/ethGetBlockByNumber.ts",
 		"ethGetBlockByHash": "tsx src/ethGetBlockByHash.ts",
-		"ethTransaction": "tsx src/ethTransaction.ts",
-		"ethTransactionReceipt": "tsx src/ethTransactionReceipt.ts",
+		"ethGetTransactionByHash": "tsx src/ethGetTransactionByHash.ts",
+		"ethGetTransactionReceipt": "tsx src/ethGetTransactionReceipt.ts",
 		"ethGetCode": "tsx src/ethGetCode.ts"
 	},
 	"keywords": [],
